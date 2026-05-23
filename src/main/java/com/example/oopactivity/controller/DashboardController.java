@@ -5,14 +5,13 @@ import com.example.oopactivity.database.DBConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
@@ -23,12 +22,8 @@ public class DashboardController {
     @FXML
     private StackPane contentPane;
 
-    private Connection conn;
-
     @FXML
     public void initialize() {
-
-        conn = DBConnection.connect();
 
         showHome(null);
     }
@@ -38,108 +33,143 @@ public class DashboardController {
 
         contentPane.getChildren().clear();
 
-        VBox mainContainer = new VBox();
+        VBox mainContainer = new VBox(30);
 
-        mainContainer.setSpacing(30);
-        mainContainer.setAlignment(Pos.TOP_CENTER);
-
-        mainContainer.setStyle("""
-                -fx-padding: 40;
-                """);
+        mainContainer.setPadding(new Insets(40));
 
         // TITLE
-        Label title =
+        Label dashboardTitle =
                 new Label("Dashboard Overview");
 
-        title.setStyle("""
-                -fx-font-size: 38;
+        dashboardTitle.setStyle("""
+                -fx-font-size: 42;
                 -fx-font-weight: bold;
                 -fx-text-fill: #0f172a;
                 """);
 
-        // ================= STATS =================
+        // CARDS CONTAINER
+        HBox cards = new HBox(25);
 
-        HBox statsContainer = new HBox();
+        cards.setAlignment(Pos.CENTER_LEFT);
 
-        statsContainer.setSpacing(20);
-        statsContainer.setAlignment(Pos.CENTER);
+        try {
 
-        int totalStudents = getCount(
-                "SELECT COUNT(*) FROM students"
-        );
+            Connection conn = DBConnection.connect();
 
-        int bsitStudents = getCount(
-                "SELECT COUNT(*) FROM students WHERE course='BSIT'"
-        );
+            // TOTAL STUDENTS
+            ResultSet totalRs =
+                    conn.createStatement().executeQuery(
+                            "SELECT COUNT(*) AS total FROM students"
+                    );
 
-        int firstYear = getCount(
-                "SELECT COUNT(*) FROM students WHERE year_level='1st Year'"
-        );
+            totalRs.next();
 
-        int secondYear = getCount(
-                "SELECT COUNT(*) FROM students WHERE year_level='2nd Year'"
-        );
+            int totalStudents =
+                    totalRs.getInt("total");
 
-        int thirdYear = getCount(
-                "SELECT COUNT(*) FROM students WHERE year_level='3rd Year'"
-        );
+            // 1ST YEAR
+            ResultSet firstRs =
+                    conn.createStatement().executeQuery(
+                            "SELECT COUNT(*) AS total FROM students WHERE year_level='1st Year'"
+                    );
 
-        int fourthYear = getCount(
-                "SELECT COUNT(*) FROM students WHERE year_level='4th Year'"
-        );
+            firstRs.next();
 
-        statsContainer.getChildren().addAll(
+            int firstYear =
+                    firstRs.getInt("total");
 
-                createCard(
-                        "TOTAL STUDENTS",
-                        String.valueOf(totalStudents),
-                        "#2563eb"
-                ),
+            // 2ND YEAR
+            ResultSet secondRs =
+                    conn.createStatement().executeQuery(
+                            "SELECT COUNT(*) AS total FROM students WHERE year_level='2nd Year'"
+                    );
 
-                createCard(
-                        "BSIT STUDENTS",
-                        String.valueOf(bsitStudents),
-                        "#22c55e"
-                ),
+            secondRs.next();
 
-                createCard(
-                        "1ST YEAR",
-                        String.valueOf(firstYear),
-                        "#f59e0b"
-                ),
+            int secondYear =
+                    secondRs.getInt("total");
 
-                createCard(
-                        "2ND YEAR",
-                        String.valueOf(secondYear),
-                        "#0ea5e9"
-                ),
+            // 3RD YEAR
+            ResultSet thirdRs =
+                    conn.createStatement().executeQuery(
+                            "SELECT COUNT(*) AS total FROM students WHERE year_level='3rd Year'"
+                    );
 
-                createCard(
-                        "3RD YEAR",
-                        String.valueOf(thirdYear),
-                        "#8b5cf6"
-                ),
+            thirdRs.next();
 
-                createCard(
-                        "4TH YEAR",
-                        String.valueOf(fourthYear),
-                        "#ef4444"
-                )
-        );
+            int thirdYear =
+                    thirdRs.getInt("total");
 
-        // =============== WELCOME CARD ===============
+            // 4TH YEAR
+            ResultSet fourthRs =
+                    conn.createStatement().executeQuery(
+                            "SELECT COUNT(*) AS total FROM students WHERE year_level='4th Year'"
+                    );
 
-        VBox welcomeCard = new VBox();
+            fourthRs.next();
 
-        welcomeCard.setAlignment(Pos.CENTER);
-        welcomeCard.setSpacing(20);
+            int fourthYear =
+                    fourthRs.getInt("total");
 
-        welcomeCard.setPrefWidth(1100);
-        welcomeCard.setPrefHeight(350);
+            // CARDS
+            VBox totalCard =
+                    createCard(
+                            "TOTAL STUDENTS",
+                            String.valueOf(totalStudents),
+                            "#2563eb"
+                    );
 
-        welcomeCard.setStyle("""
+            VBox firstCard =
+                    createCard(
+                            "1ST YEAR",
+                            String.valueOf(firstYear),
+                            "#f59e0b"
+                    );
+
+            VBox secondCard =
+                    createCard(
+                            "2ND YEAR",
+                            String.valueOf(secondYear),
+                            "#0ea5e9"
+                    );
+
+            VBox thirdCard =
+                    createCard(
+                            "3RD YEAR",
+                            String.valueOf(thirdYear),
+                            "#8b5cf6"
+                    );
+
+            VBox fourthCard =
+                    createCard(
+                            "4TH YEAR",
+                            String.valueOf(fourthYear),
+                            "#ef4444"
+                    );
+
+            cards.getChildren().addAll(
+                    totalCard,
+                    firstCard,
+                    secondCard,
+                    thirdCard,
+                    fourthCard
+            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // WELCOME PANEL
+        VBox welcomeBox = new VBox(20);
+
+        welcomeBox.setAlignment(Pos.CENTER);
+
+        welcomeBox.setPrefHeight(400);
+
+        welcomeBox.setStyle("""
                 -fx-background-color: white;
                 -fx-background-radius: 25;
+                -fx-padding: 40;
                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 20, 0, 0, 5);
                 """);
 
@@ -147,7 +177,7 @@ public class DashboardController {
                 new Label("WELCOME ADMIN");
 
         welcome.setStyle("""
-                -fx-font-size: 48;
+                -fx-font-size: 52;
                 -fx-font-weight: bold;
                 -fx-text-fill: #0f172a;
                 """);
@@ -156,28 +186,30 @@ public class DashboardController {
                 new Label("Professional School Management System");
 
         subtitle.setStyle("""
-                -fx-font-size: 22;
+                -fx-font-size: 20;
                 -fx-text-fill: #64748b;
                 """);
 
         Label desc =
-                new Label("Manage students, records, and academic data efficiently.");
+                new Label(
+                        "Manage students, records, and academic data efficiently."
+                );
 
         desc.setStyle("""
-                -fx-font-size: 17;
+                -fx-font-size: 16;
                 -fx-text-fill: #94a3b8;
                 """);
 
-        welcomeCard.getChildren().addAll(
+        welcomeBox.getChildren().addAll(
                 welcome,
                 subtitle,
                 desc
         );
 
         mainContainer.getChildren().addAll(
-                title,
-                statsContainer,
-                welcomeCard
+                dashboardTitle,
+                cards,
+                welcomeBox
         );
 
         contentPane.getChildren().add(mainContainer);
@@ -189,62 +221,41 @@ public class DashboardController {
             String color
     ) {
 
-        VBox card = new VBox();
+        VBox card = new VBox(15);
 
         card.setAlignment(Pos.CENTER);
-        card.setSpacing(12);
 
-        card.setPrefWidth(170);
-        card.setPrefHeight(120);
+        card.setPrefWidth(180);
+        card.setPrefHeight(140);
 
         card.setStyle("""
                 -fx-background-color: white;
                 -fx-background-radius: 20;
-                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 15, 0, 0, 5);
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 15, 0, 0, 4);
                 """);
 
-        Label lblTitle =
+        Label titleLabel =
                 new Label(title);
 
-        lblTitle.setStyle("""
-                -fx-font-size: 15;
+        titleLabel.setStyle("""
+                -fx-font-size: 14;
                 -fx-text-fill: #64748b;
                 """);
 
-        Label lblValue =
+        Label valueLabel =
                 new Label(value);
 
-        lblValue.setStyle("""
-                -fx-font-size: 42;
+        valueLabel.setStyle("""
+                -fx-font-size: 48;
                 -fx-font-weight: bold;
                 -fx-text-fill: """ + color + ";");
 
         card.getChildren().addAll(
-                lblTitle,
-                lblValue
+                titleLabel,
+                valueLabel
         );
 
         return card;
-    }
-
-    private int getCount(String query) {
-
-        try {
-
-            ResultSet rs =
-                    conn.createStatement().executeQuery(query);
-
-            if(rs.next()) {
-
-                return rs.getInt(1);
-            }
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
-        return 0;
     }
 
     @FXML
@@ -264,7 +275,6 @@ public class DashboardController {
             contentPane.getChildren().add(root);
 
         } catch (Exception e) {
-
             e.printStackTrace();
         }
     }
@@ -295,7 +305,6 @@ public class DashboardController {
                     .close();
 
         } catch (Exception e) {
-
             e.printStackTrace();
         }
     }
