@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.oopactivity.controller.DashboardController"
+            prefWidth="1400"
+            prefHeight="850"
+            style="-fx-background-color: #f1f5f9;">
+
+    <!-- TOP NAVBAR -->
+    <top>
+
+        <HBox alignment="CENTER_LEFT"
+              spacing="20"
+              prefHeight="75"
+              style="-fx-background-color: linear-gradient(to right, #0f172a, #1e293b);">
+
+            <padding>
+                <Insets left="30"/>
+            </padding>
+
+            <Label text="STUDENT MANAGEMENT DASHBOARD"
+                   textFill="WHITE">
+
+                <font>
+                    <Font size="26"/>
+                </font>
+
+                <style>
+                    -fx-font-weight: bold;
+                </style>
+
+            </Label>
+
+        </HBox>
+
+    </top>
+
+    <!-- SIDEBAR -->
+    <left>
+
+        <VBox spacing="18"
+              prefWidth="260"
+              style="-fx-background-color: #1e293b;">
+
+            <padding>
+                <Insets top="35" left="20" right="20"/>
+            </padding>
+
+            <!-- HOME -->
+            <Button text="🏠  Home"
+                    onAction="#showHome"
+                    prefHeight="55"
+                    maxWidth="Infinity"
+                    style="
+                    -fx-background-color: #0ea5e9;
+                    -fx-text-fill: white;
+                    -fx-font-size: 16;
+                    -fx-font-weight: bold;
+                    -fx-background-radius: 14;
+                    -fx-cursor: hand;
+                    "/>
+
+            <!-- STUDENT MANAGEMENT -->
+            <Button text="🎓  Student Management"
+                    onAction="#openStudentManagement"
+                    prefHeight="55"
+                    maxWidth="Infinity"
+                    style="
+                    -fx-background-color: #2563eb;
+                    -fx-text-fill: white;
+                    -fx-font-size: 16;
+                    -fx-font-weight: bold;
+                    -fx-background-radius: 14;
+                    -fx-cursor: hand;
+                    "/>
+
+            <!-- LOGOUT -->
+            <Button text="🚪  Logout"
+                    onAction="#logout"
+                    prefHeight="55"
+                    maxWidth="Infinity"
+                    style="
+                    -fx-background-color: #dc2626;
+                    -fx-text-fill: white;
+                    -fx-font-size: 16;
+                    -fx-font-weight: bold;
+                    -fx-background-radius: 14;
+                    -fx-cursor: hand;
+                    "/>
+
+        </VBox>
+
+    </left>
+
+    <!-- MAIN CONTENT -->
+    <center>
+
+        <StackPane fx:id="contentPane"
+                   style="-fx-background-color: #f1f5f9;">
+
+            <!-- HOME CONTENT -->
+
+            <VBox spacing="35"
+                  alignment="TOP_CENTER"
+                  style="-fx-padding: 45;">
+
+                <!-- TITLE -->
+                <Label text="Dashboard Overview"
+                       textFill="#0f172a">
+
+                    <font>
+                        <Font size="42"/>
+                    </font>
+
+                    <style>
+                        -fx-font-weight: bold;
+                    </style>
+
+                </Label>
+
+                <!-- TOTAL STUDENTS CARD -->
+
+                <VBox alignment="CENTER"
+                      spacing="15"
+                      prefWidth="300"
+                      prefHeight="160"
+                      style="
+                      -fx-background-color: white;
+                      -fx-background-radius: 25;
+                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 18, 0, 0, 5);
+                      ">
+
+                    <Label text="TOTAL STUDENTS"
+                           textFill="#64748b">
+
+                        <font>
+                            <Font size="18"/>
+                        </font>
+
+                    </Label>
+
+                    <Label fx:id="lblTotalStudents"
+                           text="0"
+                           textFill="#2563eb">
+
+                        <font>
+                            <Font size="58"/>
+                        </font>
+
+                        <style>
+                            -fx-font-weight: bold;
+                        </style>
+
+                    </Label>
+
+                </VBox>
+
+                <!-- WELCOME CARD -->
+
+                <VBox alignment="CENTER"
+                      spacing="18"
+                      prefWidth="1100"
+                      prefHeight="350"
+                      style="
+                      -fx-background-color: white;
+                      -fx-background-radius: 30;
+                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 18, 0, 0, 5);
+                      ">
+
+                    <Label text="WELCOME ADMIN"
+                           textFill="#0f172a">
+
+                        <font>
+                            <Font size="52"/>
+                        </font>
+
+                        <style>
+                            -fx-font-weight: bold;
+                        </style>
+
+                    </Label>
+
+                    <Label text="Professional School Management System"
+                           textFill="#64748b">
+
+                        <font>
+                            <Font size="22"/>
+                        </font>
+
+                    </Label>
+
+                    <Label text="Manage students, records, and academic data efficiently."
+                           textFill="#94a3b8">
+
+                        <font>
+                            <Font size="16"/>
+                        </font>
+
+                    </Label>
+
+                </VBox>
+
+            </VBox>
+
+        </StackPane>
+
+    </center>
+
+</BorderPane>

@@ -13,35 +13,59 @@
     <name>OOP-ACTIVITY</name>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <project.build.sourceEncoding>
+            UTF-8
+        </project.build.sourceEncoding>
+
         <junit.version>5.12.1</junit.version>
+
         <javafx.version>21.0.6</javafx.version>
+
+        <maven.compiler.source>21</maven.compiler.source>
+
+        <maven.compiler.target>21</maven.compiler.target>
+
     </properties>
 
     <dependencies>
 
-        <!-- JavaFX Controls -->
+        <!-- JAVAFX CONTROLS -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>${javafx.version}</version>
         </dependency>
 
-        <!-- JavaFX FXML -->
+        <!-- JAVAFX FXML -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
 
-        <!-- PostgreSQL JDBC -->
+        <!-- POSTGRESQL -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.7.3</version>
         </dependency>
 
-        <!-- JUnit -->
+        <!-- DOTENV -->
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>dotenv-java</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <!-- BCRYPT -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
+        <!-- JUNIT -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -59,33 +83,49 @@
     </dependencies>
 
     <build>
+
         <plugins>
 
-            <!-- Java Compiler -->
+            <!-- COMPILER -->
             <plugin>
+
                 <groupId>org.apache.maven.plugins</groupId>
+
                 <artifactId>maven-compiler-plugin</artifactId>
+
                 <version>3.13.0</version>
 
                 <configuration>
-                    <release>21</release>
+
+                    <source>21</source>
+
+                    <target>21</target>
+
                 </configuration>
+
             </plugin>
 
-            <!-- JavaFX Plugin -->
+            <!-- JAVAFX -->
             <plugin>
+
                 <groupId>org.openjfx</groupId>
+
                 <artifactId>javafx-maven-plugin</artifactId>
+
                 <version>0.0.8</version>
 
                 <configuration>
+
                     <mainClass>
                         com.example.oopactivity/com.example.oopactivity.MainApp
                     </mainClass>
+
                 </configuration>
+
             </plugin>
 
         </plugins>
+
     </build>
 
 </project>

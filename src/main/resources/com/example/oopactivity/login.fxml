@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.oopactivity.controller.LoginController"
+            prefWidth="1000"
+            prefHeight="600">
+
+    <!-- LEFT SIDE -->
+    <left>
+
+        <VBox alignment="CENTER"
+              spacing="20"
+              prefWidth="500"
+              style="-fx-background-color: linear-gradient(to bottom right, #0f172a, #1e293b);">
+
+            <Label text="STUDENT MANAGEMENT SYSTEM"
+                   textFill="WHITE"
+                   wrapText="true"
+                   maxWidth="350"
+                   alignment="CENTER">
+
+                <font>
+                    <Font size="32"/>
+                </font>
+            </Label>
+
+            <Label text="Professional School Management Platform"
+                   textFill="#cbd5e1">
+
+                <font>
+                    <Font size="16"/>
+                </font>
+            </Label>
+
+        </VBox>
+
+    </left>
+
+    <!-- RIGHT SIDE -->
+    <center>
+
+        <VBox alignment="CENTER"
+              spacing="20"
+              style="-fx-background-color: #f8fafc;">
+
+            <VBox spacing="15"
+                  alignment="CENTER"
+                  maxWidth="320"
+                  style="
+                  -fx-background-color: white;
+                  -fx-padding: 40;
+                  -fx-background-radius: 20;
+                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);
+                  ">
+
+                <Label text="LOGIN">
+
+                    <font>
+                        <Font size="28"/>
+                    </font>
+                </Label>
+
+                <TextField fx:id="txtUsername"
+                           promptText="Username"
+                           prefHeight="45"
+                           style="
+                           -fx-background-radius: 10;
+                           -fx-border-radius: 10;
+                           -fx-border-color: #cbd5e1;
+                           -fx-font-size: 14;
+                           "/>
+
+                <PasswordField fx:id="txtPassword"
+                               promptText="Password"
+                               prefHeight="45"
+                               style="
+                               -fx-background-radius: 10;
+                               -fx-border-radius: 10;
+                               -fx-border-color: #cbd5e1;
+                               -fx-font-size: 14;
+                               "/>
+
+                <Button text="LOGIN"
+                        onAction="#login"
+                        prefWidth="250"
+                        prefHeight="45"
+                        style="
+                        -fx-background-color: #2563eb;
+                        -fx-text-fill: white;
+                        -fx-font-size: 15;
+                        -fx-font-weight: bold;
+                        -fx-background-radius: 10;
+                        "/>
+
+            </VBox>
+
+        </VBox>
+
+    </center>
+
+</BorderPane>

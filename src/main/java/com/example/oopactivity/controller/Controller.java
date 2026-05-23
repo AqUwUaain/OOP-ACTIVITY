@@ -4,11 +4,14 @@ import com.example.oopactivity.database.DBConnection;
 import com.example.oopactivity.enums.YearLevel;
 import com.example.oopactivity.model.Student;
 
-import javafx.collections.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class Controller {
 
@@ -66,8 +69,7 @@ public class Controller {
 
         table.setOnMouseClicked(e -> {
 
-            Student s =
-                    table.getSelectionModel().getSelectedItem();
+            Student s = table.getSelectionModel().getSelectedItem();
 
             if (s != null) {
 
@@ -78,8 +80,10 @@ public class Controller {
 
                 for (YearLevel y : YearLevel.values()) {
 
-                    if (y.toString().equals(s.getYearLevel())) {
+                    if (y.toString().equalsIgnoreCase(s.getYearLevel())) {
+
                         cbYear.setValue(y);
+                        break;
                     }
                 }
             }
@@ -92,7 +96,7 @@ public class Controller {
 
         try {
 
-            String query = "SELECT * FROM students";
+            String query = "SELECT * FROM students ORDER BY id ASC";
 
             ResultSet rs =
                     conn.createStatement().executeQuery(query);
@@ -117,6 +121,14 @@ public class Controller {
     @FXML
     private void addStudent() {
 
+        if (txtName.getText().isEmpty()
+                || txtCourse.getText().isEmpty()
+                || cbYear.getValue() == null) {
+
+            showAlert("Please fill all fields!");
+            return;
+        }
+
         try {
 
             String query =
@@ -134,6 +146,8 @@ public class Controller {
             loadData();
             clearFields();
 
+            showAlert("Student added successfully!");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,6 +155,20 @@ public class Controller {
 
     @FXML
     private void updateStudent() {
+
+        if (selectedId == -1) {
+
+            showAlert("Please select a student first!");
+            return;
+        }
+
+        if (txtName.getText().isEmpty()
+                || txtCourse.getText().isEmpty()
+                || cbYear.getValue() == null) {
+
+            showAlert("Please fill all fields!");
+            return;
+        }
 
         try {
 
@@ -160,6 +188,8 @@ public class Controller {
             loadData();
             clearFields();
 
+            showAlert("Student updated successfully!");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -167,6 +197,12 @@ public class Controller {
 
     @FXML
     private void deleteStudent() {
+
+        if (selectedId == -1) {
+
+            showAlert("Please select a student first!");
+            return;
+        }
 
         try {
 
@@ -183,6 +219,8 @@ public class Controller {
             loadData();
             clearFields();
 
+            showAlert("Student deleted successfully!");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -197,5 +235,17 @@ public class Controller {
         cbYear.setValue(null);
 
         selectedId = -1;
+
+        table.getSelectionModel().clearSelection();
+    }
+
+    private void showAlert(String message) {
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.showAndWait();
     }
 }
